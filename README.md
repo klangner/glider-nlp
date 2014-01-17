@@ -1,12 +1,12 @@
-# Condor NLP tools
+# Glider NLP
 
-Condor is Haskell Natural Language Processing (NLP) library.
+glider-nlp is Haskell library for processing natural language.
 
 ## Installation
-The library can be installed from [Hackage](http://hackage.haskell.org/package/condor-nlp) with the command:
+The library can be installed from [Hackage](http://hackage.haskell.org/package/glider-nlp) with the command:
 
 ```sh
-cabal install condor-nlp
+cabal install glider-nlp
 ```
 
 ## Usage
@@ -14,7 +14,7 @@ cabal install condor-nlp
 ### Count number of words in the document
 
 ```haskell
-import Condor.NLP.Statistics
+import Glider.NLP.Statistics
 
 doc <- readDocument "samples/haskell.txt"
 countWords (docText doc)
@@ -24,7 +24,7 @@ countWords (docText doc)
 
 ```haskell
 import Data.Text
-import Condor.NLP.Statistics
+import Glider.NLP.Statistics
 
 countWordsExample :: IO Int
 countWordsExample = do
