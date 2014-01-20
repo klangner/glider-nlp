@@ -1,5 +1,5 @@
 name:           glider-nlp
-version:        0.1
+version:        0.2
 cabal-version:  >=1.10
 build-type:     Simple
 author:         Krzysztof Langner
