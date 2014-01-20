@@ -14,10 +14,10 @@ License-file:   LICENSE
 Extra-Source-Files:
                 CHANGES
 description:    
-    Natural Language Processing (NLP) library
-
+    Natural Language Processing (NLP) library.
+    .
     Check module in folder "Glider.NLP.Statistics" for universal functions and 
-    Glider.NLP.Language.<language> for functions designed for specific language.
+    Glider.NLP.Language.language for functions designed for specific language.
 
 source-repository head
   type:     git
