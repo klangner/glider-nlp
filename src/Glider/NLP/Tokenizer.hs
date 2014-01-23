@@ -46,8 +46,8 @@ data Token = Word Text
 -- > tokenize "one two." == [Word "one", Whitespace, Word "two", "Separator "."] 
 tokenize :: Text -> [Token]
 tokenize xs = case allParser xs of
-                [(v, out)] -> (v:tokenize out)
-                _ -> []
+    [(v, out)] -> v : tokenize out
+    _ -> []
                 
 -- | Exctract all words from tokens
 --
@@ -55,7 +55,7 @@ tokenize xs = case allParser xs of
 getWords :: [Token] -> [Text]
 getWords [] = []
 getWords (x:xs) = case x of
-                        Word a -> (a: getWords xs)
+                        Word a -> a: getWords xs
                         _ -> getWords xs
                         
 -- | Convert all words to the same case
@@ -81,13 +81,13 @@ numberParser xs | null xs = []
 -- | Parse punctuation
 punctuationParser :: Parser
 punctuationParser xs | null xs = []
-                     | isPunctuation (head xs) = [(Punctuation (head xs), (tail xs))]
+                     | isPunctuation (head xs) = [(Punctuation (head xs), tail xs)]
                      | otherwise = []
 
 -- | Parse symbol
 symbolParser :: Parser
 symbolParser xs | null xs = []
-                | isSymbol (head xs) = [(Symbol (head xs), (tail xs))]
+                | isSymbol (head xs) = [(Symbol (head xs), tail xs)]
                 | otherwise = []
                             
 -- | Parse whitespaces
