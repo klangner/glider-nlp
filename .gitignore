@@ -1,3 +1,6 @@
 /.dist-buildwrapper
 /.settings
 /dist
+.idea
+.stack-work
+*.iml

@@ -1,6 +1,7 @@
+{-# LANGUAGE OverloadedStrings #-}
 {- |
 Module : Glider.NLP.Statistics
-Copyright : Copyright (C) 2013-2014 Krzysztof Langner
+Copyright : Copyright (C) 2013-2016 Krzysztof Langner
 License : BSD3
 
 Maintainer : Krzysztof Langner <klangner@gmail.com>
@@ -23,13 +24,13 @@ import qualified Data.List as List
 
 -- | Count number of words in the text.
 --
--- > countWords (T.pack "one two three") == 3
+-- > countWords "one two three" == 3
 countWords :: Text -> Int    
 countWords = List.length . getWords . tokenize
 
 -- | Count word frequency
 --
--- > wordFreq (T.pack "one two, three one") == [("one", 2), ("two", 1), ("three", 1)]
+-- > wordFreq "one two, three one" == [("one", 2), ("two", 1), ("three", 1)]
 wordFreq :: Text -> [(Text, Int)]
 wordFreq a = [(List.head xs, List.length xs) | xs <- List.group tokens]
     where tokens = List.sort $ (foldCase . getWords . tokenize) a

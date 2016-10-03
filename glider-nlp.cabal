@@ -1,5 +1,5 @@
 name:           glider-nlp
-version:        0.2
+version:        0.4
 cabal-version:  >=1.10
 build-type:     Simple
 author:         Krzysztof Langner
@@ -28,9 +28,9 @@ library
   default-language: Haskell2010
   ghc-options:      -Wall
   build-depends:    
-                    base >= 4 && <4.7,
-                    text >=1 && <1.1,
-                    containers >=0.5.0 && <0.6
+                    base >= 4 && <5,
+                    text >=1 && <2,
+                    containers >=0.5 && <1
   exposed-modules:  
                     Glider.NLP.Language.English.Porter,
                     Glider.NLP.Language.English.StopWords,
@@ -40,28 +40,28 @@ library
   other-modules:    Glider.NLP.Language.Default
 
 test-suite unit-tests
-  type:             detailed-0.9
-  test-module:      AllTests
+  type:             exitcode-stdio-1.0
+  main-is:          Spec.hs
   default-language: Haskell2010
   ghc-options:      -Wall -rtsopts
   build-depends:   
-                    base >= 4 && <4.7,
-                    HUnit >=1.2.5 && <1.3,
-                    Cabal >=1.16.0 && <1.17,
-                    text >=1 && <1.1,
-                    containers >=0.5.0 && <0.6
+                    base >= 4 && <5,
+                    hspec >=2 && <3,
+                    Cabal >=1 && <2,
+                    text >=1 && <2,
+                    containers >=0.5 && <1
   hs-source-dirs:  
                     src,
                     test-src
   other-modules:    
-                    Distribution.TestSuite.HUnit,
                     Glider.NLP.Language.Default,
-                    Glider.NLP.Language.DefaultTest,
                     Glider.NLP.Language.English.Porter,
-                    Glider.NLP.Language.English.PorterTest,
                     Glider.NLP.Language.English.StopWords,
                     Glider.NLP.Language.Polish.StopWords,
                     Glider.NLP.Statistics,
-                    Glider.NLP.StatisticsTest,
                     Glider.NLP.Tokenizer,
-                    Glider.NLP.TokenizerTest
+
+                    Glider.NLP.Language.DefaultSpec,
+                    Glider.NLP.Language.English.PorterSpec,
+                    Glider.NLP.StatisticsSpec,
+                    Glider.NLP.TokenizerSpec

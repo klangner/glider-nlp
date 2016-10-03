@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 {- |
 Module : Glider.NLP.Tokenizer
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
@@ -8,8 +9,8 @@ Stability : alpha
 Portability : portable
 
 This module contains functions which parses text into tokens. 
-tokens are not normalized. If you need all tokens from the document then 
-check function "tokenize". If you need only words (na dots, numbers etc.) 
+Tokens are not normalized. If you need all tokens from the document then
+use function "tokenize". If you need only words (no dots, numbers etc.)
 then check function "getWords".
 
 -}
@@ -49,7 +50,7 @@ tokenize xs = case allParser xs of
     [(v, out)] -> v : tokenize out
     _ -> []
                 
--- | Exctract all words from tokens
+-- | Extract all words from tokens
 --
 -- > getWords "one two." == ["one", "two"] 
 getWords :: [Token] -> [Text]
