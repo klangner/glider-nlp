@@ -1,3 +1,5 @@
+[![Hackage](https://img.shields.io/hackage/v/radium.svg)](https://hackage.haskell.org/package/glider-nlp)
+
 # Glider NLP
 
 glider-nlp is Haskell library for processing natural language.
