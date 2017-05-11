@@ -11,7 +11,6 @@ Portability : portable
 
 module Glider.NLP.Language.English.PorterSpec (spec) where
 
-import qualified Data.Text as T
 import Test.Hspec
 import Glider.NLP.Language.English.Porter
 

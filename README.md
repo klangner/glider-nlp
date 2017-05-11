@@ -11,6 +11,13 @@ The library can be installed from [Hackage](http://hackage.haskell.org/package/g
 cabal install glider-nlp
 ```
 
+or build from the source
+```bash
+stack setup
+stack build
+stack test
+```
+
 ## Usage
 
 ### Count number of words in the document

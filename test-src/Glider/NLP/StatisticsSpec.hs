@@ -11,7 +11,6 @@ Portability : portable
 
 module Glider.NLP.StatisticsSpec (spec) where
 
-import qualified Data.Text as T
 import Test.Hspec
 import Glider.NLP.Statistics
 
