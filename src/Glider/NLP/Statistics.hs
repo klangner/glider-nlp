@@ -19,18 +19,18 @@ module Glider.NLP.Statistics
 import Prelude hiding(length)
 import Data.Text
 import Glider.NLP.Tokenizer
-import qualified Data.List as List
+import qualified Data.List as L
 
 
 -- | Count number of words in the text.
 --
 -- > countWords "one two three" == 3
 countWords :: Text -> Int    
-countWords = List.length . getWords . tokenize
+countWords = L.length . getWords . tokenize
 
 -- | Count word frequency
 --
 -- > wordFreq "one two, three one" == [("one", 2), ("two", 1), ("three", 1)]
 wordFreq :: Text -> [(Text, Int)]
-wordFreq a = [(List.head xs, List.length xs) | xs <- List.group tokens]
-    where tokens = List.sort $ (foldCase . getWords . tokenize) a
+wordFreq txt = [(L.head xs, L.length xs) | xs <- L.group tokens]
+    where tokens = L.sort $ (foldCase . getWords . tokenize) txt

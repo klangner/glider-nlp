@@ -19,17 +19,13 @@ module Glider.NLP.Tokenizer
     , foldCase
     , getWords
     , tokenize
-    , wordParser
-    , numberParser
-    , punctuationParser
-    , symbolParser
-    , spaceParser
-    , allParser
     ) where
 
-import Prelude hiding (null, takeWhile, dropWhile, head, tail)    
+import Prelude hiding (null, takeWhile, dropWhile, head, tail)
+import Text.Parsec ((<|>), parse, digit, letter, many, many1)
+import Text.Parsec.Text (Parser)
+import Text.Parsec.Char (space)
 import Data.Text
-import Data.Char
 import qualified Data.List as List
 
 -- | Token type
@@ -42,78 +38,46 @@ data Token = Word Text
            deriving (Eq, Show)
 
 
--- | Split text into tokens
---
--- > tokenize "one two." == [Word "one", Whitespace, Word "two", "Separator "."] 
-tokenize :: Text -> [Token]
-tokenize xs = case allParser xs of
-    [(v, out)] -> v : tokenize out
-    _ -> []
-                
 -- | Extract all words from tokens
 --
--- > getWords "one two." == ["one", "two"] 
+-- > getWords "one two." == ["one", "two"]
 getWords :: [Token] -> [Text]
 getWords [] = []
 getWords (x:xs) = case x of
                         Word a -> a: getWords xs
                         _ -> getWords xs
-                        
 -- | Convert all words to the same case
 foldCase :: [Text] -> [Text]
-foldCase = List.map toCaseFold                                          
-    
+foldCase = List.map toCaseFold
 
--- | Parser type
-type Parser = Text -> [(Token, Text)]
 
--- | Parse word
-wordParser :: Parser
-wordParser xs | null xs = []
-              | isLetter (head xs) = [(Word (takeWhile isAlphaNum xs), dropWhile isAlphaNum xs)]
-              | otherwise = []
+-- Split text into tokens
+--
+-- > tokenize "one two." == [Word "one", Whitespace, Word "two", "Separator "."] 
+tokenize :: Text -> [Token]
+tokenize str = case parse tokenParser "" str of
+    Left _ -> []
+    Right val -> val
 
--- | Parse number
-numberParser :: Parser
-numberParser xs | null xs = []
-                | isDigit (head xs) = [(Number (takeWhile isDigit xs), dropWhile isDigit xs)]
-                | otherwise = []
 
--- | Parse punctuation
-punctuationParser :: Parser
-punctuationParser xs | null xs = []
-                     | isPunctuation (head xs) = [(Punctuation (head xs), tail xs)]
-                     | otherwise = []
+-- Consume all tokens.
+tokenParser :: Parser [Token]
+tokenParser = many (word <|> number <|> whitespace)
 
--- | Parse symbol
-symbolParser :: Parser
-symbolParser xs | null xs = []
-                | isSymbol (head xs) = [(Symbol (head xs), tail xs)]
-                | otherwise = []
-                            
--- | Parse whitespaces
-spaceParser :: Parser
-spaceParser xs | null xs = []
-               | isSpace (head xs) = [(Whitespace, dropWhile isSpace xs)]
-               | otherwise = []
-                            
--- | Parse single char
-charParser :: Parser
-charParser xs | null xs = []
-              | otherwise = [(Unknown (head xs), tail xs)]
+-- Word Parser
+word :: Parser Token
+word = do
+  xs <- many1 letter
+  return $ Word (pack xs)
 
--- | Apply all parsers to the input. 
--- Return result from the first which will parse correctly given text.
-allParser :: Parser
-allParser xs = case wordParser xs of
-                [(v, out)] -> [(v, out)]
-                _ -> case numberParser xs of               
-                        [(v, out)] -> [(v, out)]
-                        _ -> case punctuationParser xs of               
-                            [(v, out)] -> [(v, out)]
-                            _ -> case symbolParser xs of               
-                                [(v, out)] -> [(v, out)]
-                                _ -> case spaceParser xs of               
-                                    [(v, out)] -> [(v, out)]
-                                    _ -> charParser xs
-                
+-- Parse number. Number consists of many digits
+number :: Parser Token
+number =  do
+  xs <- many1 digit
+  return $ Number (pack xs)
+
+-- Whitespace Parser
+whitespace :: Parser Token
+whitespace = do
+  _ <- many1 space
+  return Whitespace
